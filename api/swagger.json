@@ -1,0 +1,320 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a simple CRUD API application made with Express and documented with Swagger",
+    "version": "1.0.0",
+    "title": "Nodejs + MongoDB Bribed API with Swagger",
+    "contact": {
+      "email": "frank.siret@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:5000",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "bribed",
+      "description": "API to manage all problem"
+    }
+  ],
+  "paths": {
+    "/bribed": {
+      "get": {
+        "tags": ["bribed"],
+        "summary": "List of all problem",
+        "description": "",
+        "operationId": "listBribed",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Bribed-details"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["bribed"],
+        "summary": "Add new problem",
+        "description": "",
+        "operationId": "addBribed",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Problem to be added to the API",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "queue": {
+                  "type": "array",
+                  "items": { "type": "integer" }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "$ref": "#/definitions/Bribed"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid queue array"
+          }
+        }
+      }
+    },
+    "/bribed/{id}": {
+      "get": {
+        "tags": ["bribed"],
+        "summary": "Get a problem",
+        "description": "",
+        "operationId": "getBribed",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "problemId",
+            "description": "Problem id to get",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "$ref": "#/definitions/Bribed"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Problem not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["bribed"],
+        "summary": "Update a problem",
+        "description": "",
+        "operationId": "updateBribed",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Problem to update",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "queue": {
+                  "type": "array",
+                  "items": { "type": "integer" }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "$ref": "#/definitions/Bribed"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid queue array"
+          },
+          "404": {
+            "description": "Problem not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["bribed"],
+        "summary": "Delete a problem",
+        "description": "",
+        "operationId": "deleteBribed",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "problemId",
+            "description": "Id to delete from the API",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Problem not found"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Bribed": {
+      "type": "object",
+      "required": ["queue"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "queue": {
+          "type": "array",
+          "description": "Array of index, person in the queue",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "solution": {
+          "type": "object",
+          "properties": {
+            "tooChaotic": {
+              "type": "boolean",
+              "description": "True if the solution for the problem is too chaotic"
+            },
+            "bribed": {
+              "type": "integer",
+              "description": "Count of bribed required, solution of the problem"
+            },
+            "details": {
+              "type": "array",
+              "description": "Details for every step of the solution",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "queue": {
+                    "type": "array",
+                    "description": "Array of position in this particular step",
+                    "items": {
+                      "type": "integer"
+                    }
+                  },
+                  "indexA": {
+                    "type": "number",
+                    "description": "Index for the person in the queue who bribe"
+                  },
+                  "indexB": {
+                    "type": "number",
+                    "description": "Index for the person in the queue bribed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Bribed-details": {
+      "type": "object",
+      "required": ["queue"],
+      "description": "DTO of Bribed modal without details",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "queue": {
+          "type": "array",
+          "description": "Array of index, person in the queue",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "solution": {
+          "type": "object",
+          "properties": {
+            "tooChaotic": {
+              "type": "boolean",
+              "description": "True if the solution for the problem is too chaotic"
+            },
+            "bribed": {
+              "type": "integer",
+              "description": "Count of bribed required, solution of the problem"
+            }
+          }
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

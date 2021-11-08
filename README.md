@@ -8,7 +8,7 @@ REST service (JSON/HTTP) for storing input of a problem and its corresponded sol
 
 Each entry has:
 
-- a UID (`id`)
+- a UID (`_id`)
 - an array of number (`queue`)
 - its solution (`solution`)
 

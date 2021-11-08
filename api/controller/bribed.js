@@ -9,6 +9,7 @@ const calculate = arr => {
         a[i] = a[j];
         a[j] = t;
     }
+    details.push({ queue: [...arr], indexA: -1, indexB: -1 })
     for (let i = n - 1; i >= 0; i--) {
         if (arr[i] !== i + 1) {
             if (arr[i - 1] === i + 1) {

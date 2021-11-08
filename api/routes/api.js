@@ -140,30 +140,30 @@ router.put('/:id',
         if (hasError) {
             res.status(400).send({ success: false, ...result })
         }
-        const _id = req.params.id;
-        const { id, queue } = req.body;
-        if (id !== _id)
+        const id = req.params.id;
+        const { _id, queue } = req.body;
+        if (_id !== id)
             res.status(400).json({
                 success: false,
                 message: 'Invalid "id", does not match with param id'
             })
         try {
             const solution = calculate([...queue]);
-            const b = await ModelBrided.findByIdAndUpdate(_id, {
+            const b = await ModelBrided.findByIdAndUpdate(id, {
                 queue: [...queue],
                 solution
             })
             if (!b) {
                 res.status(404).json({
                     success: false,
-                    message: `"id: ${_id}" not found'`
+                    message: `"id: ${id}" not found'`
                 })
             }
             console.log(b)
             res.status(201).json({
                 success: true,
                 data: {
-                    _id,
+                    _id: id,
                     queue: [...queue],
                     solution
                 }
