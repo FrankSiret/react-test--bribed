@@ -1,0 +1,26 @@
+{
+  "name": "bribed-project",
+  "version": "1.0.0",
+  "description": "A simple REST API for The New Year Chaos problem",
+  "main": "/api/app.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankSiret/react-test--bribed.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "reactjs"
+  ],
+  "author": "Frank Rodríguez Siret",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FrankSiret/react-test--bribed/issues"
+  },
+  "homepage": "https://github.com/FrankSiret/react-test--bribed#readme"
+}
