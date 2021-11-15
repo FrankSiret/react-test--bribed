@@ -35,6 +35,7 @@ Each entry has:
 - [Redux v4.1.2](https://redux.js.org)
 - [Chai-Http v4.3.0](https://chaijs.com/plugins/chai-http) for unit test the API
 - [Sass v1.43.0](https://create-react-app.dev/docs/adding-a-sass-stylesheet/)
+- [Ant-Design v4.16.13](https://ant.design/) for frontend views
 
 ## Project structure
 
