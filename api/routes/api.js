@@ -99,7 +99,7 @@ router.delete('/:id',
                     message: `The entry "id: ${id}" not found'`
                 })
             }
-            res.status(240).send();
+            res.status(204).send();
         }
         catch (err) {
             res.status(400).json({
