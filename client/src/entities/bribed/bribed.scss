@@ -1,0 +1,12 @@
+.bribed {
+  &-table {
+    thead th:last-child {
+      width: 1px;
+    }
+  }
+  &-edit {
+    .size-large {
+      width: 300px !important;
+    }
+  }
+}

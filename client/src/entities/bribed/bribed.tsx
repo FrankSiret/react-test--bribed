@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { NavLink, RouteComponentProps } from 'react-router-dom';
 import { IRootState } from '../../shared/reducers';
-import { Table, Tag } from 'antd';
+import { Button, Space, Table, Tag } from 'antd';
 
 import { getEntities } from './bribed.reducer';
-// import { ColumnsType } from 'antd/lib/table';
 import { IBribed, ISolutionBribed } from '../../shared/model/bribed.model';
+import { ColumnsType } from 'antd/lib/table';
+
+import { EyeOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { EntityHeader } from 'src/shared/components/entityComponents';
+
+import './bribed.scss';
 
 export const Bribed = (props: RouteComponentProps<{ url: string }>) => {
   const dispatch = useDispatch();
@@ -31,7 +36,7 @@ export const Bribed = (props: RouteComponentProps<{ url: string }>) => {
   const renderNumberOfBribed = (data: ISolutionBribed) => (
     <div>
       {data?.bribed !== undefined ? (
-        data.bribed
+        `${data.bribed} bribes`
       ) : (
         <Tag color='volcano' >
           Too Chaotic
@@ -40,12 +45,53 @@ export const Bribed = (props: RouteComponentProps<{ url: string }>) => {
     </div>
   )
 
+  const renderQueue = (data: number[]) => (
+    <div title={JSON.stringify(data)}>
+      {Array.isArray(data) && data.findIndex(v => typeof v !== 'number' || v < 1) === -1
+        ? data.join(', ')
+        : 'Error'
+      }
+    </div>
+  )
+
+  const renderActionButtons = (record: IBribed) => (
+    <Space size="small" >
+      <Button
+        title="Detail problem"
+        shape="circle"
+        type="dashed"
+      >
+        <NavLink to={`${match.url}/${record._id}`} >
+          <EyeOutlined />
+        </NavLink>
+      </Button>
+      <Button
+        title="Edit problem"
+        shape="circle"
+        className="warning"
+      >
+        <NavLink to={`${match.url}/${record._id}/edit`} >
+          <EditOutlined />
+        </NavLink>
+      </Button>
+      <Button
+        title="Delete problem"
+        shape="circle"
+        danger
+      >
+        <NavLink to={`${match.url}/${record._id}/delete`} >
+          <DeleteOutlined />
+        </NavLink>
+      </Button>
+    </Space >
+  )
+
   const columns = [
     {
       title: 'Queue',
       dataIndex: 'queue',
       key: 'queue',
-      render: (data: number[]) => <div>{JSON.stringify(data)}</div>,
+      render: (data: number[]) => renderQueue(data),
     },
     {
       title: 'Number of bribed',
@@ -53,36 +99,31 @@ export const Bribed = (props: RouteComponentProps<{ url: string }>) => {
       key: 'solution',
       render: (data: ISolutionBribed) => renderNumberOfBribed(data)
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text: any, record: IBribed) => renderActionButtons(record),
+    },
   ];
 
   return (
-    <div className="app-page">
+    <div className="app-page bribed">
       <div className="site-layout-content">
-        <Table dataSource={bribedList} columns={columns} />
+        <EntityHeader
+          title="Bribed Problem"
+          addRoute={`${match.url}/new`}
+          update={handleSyncList}
+        />
+        <Table
+          rowKey={(data) => data._id ?? ''}
+          className="bribed-table"
+          size="small"
+          loading={loading}
+          columns={columns}
+          dataSource={bribedList}
+          pagination={{ position: ['bottomCenter'], size: 'small', total: totalItems }}
+        />
       </div>
-      {/* <TableComponent
-        title={translate('cunaticWebApp.bribed.home.title')}
-        ptitle={translate('cunaticWebApp.bribed.home.title')}
-        header={[
-          {
-            key: 'name',
-            title: translate('cunaticWebApp.bribed.name'),
-          },
-          {
-            key: 'tipo',
-            title: translate('cunaticWebApp.bribed.tipo'),
-          },
-        ]}
-        loading={loading}
-        itemData={bribedList}
-        route={match.url}
-        update={handleSyncList}
-        paginationState={paginationState}
-        handlePagination={handlePagination}
-        totalItems={totalItems}
-        nextPage={links.next}
-        useSort={sort}
-      /> */}
     </div>
   );
 };

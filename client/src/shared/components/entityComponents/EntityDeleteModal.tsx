@@ -12,7 +12,15 @@ export interface IEntityDeleteModalProps {
     children: React.ReactNode;
 }
 
-const EntityDeleteModal: (props: IEntityDeleteModalProps) => JSX.Element = ({ title, confirmDelete, handleClose, loading = false, updating = false, visible = true, children }) => {
+const EntityDeleteModal: (props: IEntityDeleteModalProps) => JSX.Element = ({
+    title,
+    confirmDelete,
+    handleClose,
+    loading = false,
+    updating = false,
+    visible = true,
+    children
+}) => {
     return (
         <Modal
             visible={visible}

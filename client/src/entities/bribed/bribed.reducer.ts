@@ -106,9 +106,6 @@ export default (state: BribedState = initialState, action: any): BribedState => 
         errorMessage: action.payload.message,
       };
     case SUCCESS(ACTION_TYPES.FETCH_BRIBED_LIST): {
-      console.log(action.payload)
-      console.log(action.payload.data)
-      console.log(action.payload.data.data)
       const entities: IBribed[] = action.payload.data.data ?? [];
       return {
         ...state,
@@ -117,12 +114,14 @@ export default (state: BribedState = initialState, action: any): BribedState => 
         totalItems: entities.length,
       };
     }
-    case SUCCESS(ACTION_TYPES.FETCH_BRIBED):
+    case SUCCESS(ACTION_TYPES.FETCH_BRIBED): {
+      const entity: IBribed = action.payload.data.data ?? [];
       return {
         ...state,
         loading: false,
-        entity: action.payload.data,
+        entity,
       };
+    }
     case SUCCESS(ACTION_TYPES.CREATE_BRIBED):
     case SUCCESS(ACTION_TYPES.UPDATE_BRIBED):
     case SUCCESS(ACTION_TYPES.DELETE_BRIBED):

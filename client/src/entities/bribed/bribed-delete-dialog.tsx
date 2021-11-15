@@ -6,7 +6,7 @@ import { getEntity, deleteEntity } from './bribed.reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from "../../shared/reducers";
 
-export const AgrupadorDeleteDialog = () => {
+export const BribedDeleteDialog = () => {
   const dispatch = useDispatch();
 
   const match = useRouteMatch<{ id: string }>()
@@ -43,9 +43,12 @@ export const AgrupadorDeleteDialog = () => {
       loading={loading}
       updating={updating}
     >
-      Are you sure you want to delete this problem?
+      <p>Are you sure you want to delete this problem?</p>
+      {bribedEntity?.queue &&
+        <strong>Bribed {JSON.stringify(bribedEntity.queue)} = {bribedEntity.solution?.tooChaotic ? "Too chaotic" : bribedEntity.solution?.bribed}</strong>
+      }
     </EntityDeleteModal>
   );
 };
 
-export default AgrupadorDeleteDialog;
+export default BribedDeleteDialog;

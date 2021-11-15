@@ -12,7 +12,7 @@ const EntityButtons: (props: IEntityButtonsProps) => JSX.Element = ({ updating }
 	return (
 		<Form.Item className="entity-buttons">
 			<div className="entity-buttons-content">
-				<Button type="primary" htmlType="submit" loading={updating}  >
+				<Button type="primary" htmlType="submit" loading={updating} >
 					<SaveOutlined />
 					Save
 				</Button>
