@@ -1,15 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { Provider } from 'react-redux';
+
+import './index.scss';
+import getStore from './config/store';
+import ErrorBoundary from './shared/error/error-boundary';
+import AppComponent from './App';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const store = getStore();
+
+const rootEl = document.getElementById('root');
+
+const render = (Component: any) =>
+  // eslint-disable-next-line react/no-render-return-value
+  ReactDOM.render(
+    <ErrorBoundary>
+      <Provider store={store}>
+        <div>
+          <Component />
+        </div>
+      </Provider>
+    </ErrorBoundary>,
+    rootEl
+  );
+
+render(AppComponent);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

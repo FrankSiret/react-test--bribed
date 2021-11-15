@@ -1,0 +1,14 @@
+.app-header {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+
+  .logo {
+    float: left;
+    width: 100px;
+
+    img {
+      height: 40px;
+    }
+  }
+}

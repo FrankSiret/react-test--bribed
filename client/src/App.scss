@@ -1,0 +1,28 @@
+@import-normalize;
+
+.app {
+  background: white !important;
+  display: flex;
+
+  &-page {
+    padding-top: 64px;
+    min-height: calc(100vh - 70px);
+    background: white;
+    max-width: 1024px;
+    width: 80%;
+    margin: auto;
+    &.w-100 {
+      max-width: none;
+      width: auto;
+    }
+
+    .site-layout-content {
+      padding-top: 1.5rem;
+      background: white;
+    }
+  }
+
+  &-footer {
+    text-align: center;
+  }
+}
