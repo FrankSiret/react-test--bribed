@@ -58,7 +58,7 @@ export const createEntity: ICrudPostAction<TDataType, IResponse<IBribed>> = (dat
 });
 
 export const updateEntity: ICrudPutAction<TDataType, IResponse<IBribed>> = (id, data) => ({
-  type: ACTION_TYPES.CREATE_BRIBED,
+  type: ACTION_TYPES.UPDATE_BRIBED,
   payload: axios.put<IResponse<IBribed>>(`${apiUrl}/${id}`, data)
 });
 
@@ -123,7 +123,15 @@ export default (state: BribedState = initialState, action: any): BribedState => 
       };
     }
     case SUCCESS(ACTION_TYPES.CREATE_BRIBED):
-    case SUCCESS(ACTION_TYPES.UPDATE_BRIBED):
+    case SUCCESS(ACTION_TYPES.UPDATE_BRIBED): {
+      const entity: IBribed = action.payload.data.data ?? [];
+      return {
+        ...state,
+        updating: false,
+        updateSuccess: true,
+        entity,
+      };
+    }
     case SUCCESS(ACTION_TYPES.DELETE_BRIBED):
       return {
         ...state,
