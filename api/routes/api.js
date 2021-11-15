@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:id',
-    body('id').notEmpty().withMessage('"id" most not be empty'),
+    param('id').not().isUUID().withMessage('Param "id" most be a valid UUID'),
     async (req, res) => {
         const id = req.params.id
         try {
@@ -41,6 +41,7 @@ router.get('/:id',
 )
 
 router.post('/',
+    body('_id').not().isUUID().withMessage('"_id" most be a valid UUID'),
     body('queue').isArray({ min: 1 }).withMessage('"queue" most be a not empty array')
         .custom(queue => {
             const b = Array.isArray(queue) && queue.every(v => typeof v === 'number' && v > 0);
@@ -50,16 +51,15 @@ router.post('/',
             return true;
         })
         .custom(queue => {
-            const len = queue.length;
-            const m = {};
-            queue.forEach(v => {
-                if (typeof v === 'number' && v > 0 && v <= len) {
-                    if (m[v]) throw new Error('All elements on "queue" most be diferents');
-                    m[v] = true;
-                }
-            })
-            if (Object.keys(m).length !== len || m[0]) {
-                throw new Error('Elements on "queue" must be values from 1 to n, arbitrarily ordered');
+            const n = queue.length;
+            const sorted = [...queue];
+            sorted.sort((a, b) => a - b);
+            const list = [];
+            new Array(n).fill(null).forEach((v, i) => { list.push(i + 1); });
+
+            for (let i = 0; i < n; i++) {
+                if (sorted[i] !== list[i])
+                    throw new Error('Elements on "queue" must be values from 1 to n, arbitrarily ordered');
             }
             return true;
         }),
@@ -88,11 +88,11 @@ router.post('/',
 )
 
 router.delete('/:id',
+    param('id').not().isUUID().withMessage('Param "id" most be a valid UUID'),
     async (req, res) => {
         try {
             const id = req.params.id
             const b = await ModelBrided.findByIdAndDelete(id);
-            console.log(b);
             if (!b) {
                 res.status(404).json({
                     success: false,
@@ -111,7 +111,7 @@ router.delete('/:id',
 )
 
 router.put('/:id',
-    body('id').notEmpty().withMessage('"id" most not be empty'),
+    param('id').not().isUUID().withMessage('Param "id" most be a valid UUID'),
     body('queue').isArray({ min: 1 }).withMessage('"queue" most be a not empty array')
         .custom(queue => {
             const b = Array.isArray(queue) && queue.every(v => typeof v === 'number' && v > 0);
@@ -121,16 +121,15 @@ router.put('/:id',
             return true;
         })
         .custom(queue => {
-            const len = queue.length;
-            const m = {};
-            queue.forEach(v => {
-                if (typeof v === 'number' && v > 0 && v <= len) {
-                    if (m[v]) throw new Error('All elements on "queue" most be diferents');
-                    m[v] = true;
-                }
-            })
-            if (Object.keys(m).length !== len || m[0]) {
-                throw new Error('Elements on "queue" must be values from 1 to n, arbitrarily ordered');
+            const n = queue.length;
+            const sorted = [...queue];
+            sorted.sort((a, b) => a - b);
+            const list = [];
+            new Array(n).fill(null).forEach((v, i) => { list.push(i + 1); });
+
+            for (let i = 0; i < n; i++) {
+                if (sorted[i] !== list[i])
+                    throw new Error('Elements on "queue" must be values from 1 to n, arbitrarily ordered');
             }
             return true;
         }),
@@ -159,7 +158,7 @@ router.put('/:id',
                     message: `"id: ${id}" not found'`
                 })
             }
-            console.log(b)
+
             res.status(201).json({
                 success: true,
                 data: {
