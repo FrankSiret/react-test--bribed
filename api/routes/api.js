@@ -67,7 +67,7 @@ router.post('/',
         const result = validationResult(req)
         const hasError = !result.isEmpty();
         if (hasError) {
-            res.status(400).send({ success: false, ...result })
+            res.status(400).send({ success: false, ...result, message: 'Invalid field' })
         }
         const { queue } = req.body;
         try {
@@ -138,7 +138,7 @@ router.put('/:id',
         const result = validationResult(req)
         const hasError = !result.isEmpty();
         if (hasError) {
-            res.status(400).send({ success: false, ...result })
+            res.status(400).send({ success: false, ...result, message: 'Invalid field' })
         }
         const id = req.params.id;
         const { _id, queue } = req.body;
