@@ -9,4 +9,18 @@
       width: 300px !important;
     }
   }
+  &-detail {
+    .display__too-chaotic,
+    .display__solution {
+      padding-bottom: 1.3rem;
+    }
+    .display__solution__list {
+      padding-bottom: 1rem;
+      &--index {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+  }
 }
