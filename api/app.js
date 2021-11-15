@@ -33,9 +33,9 @@ const swaggerDocument = require('./swagger.json');
 app.use('/v1/bribed', apiRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// catch 404 and forward to error handler
+// catching 404
 app.use(function (req, res, next) {
-  next(createError(404));
+  res.status(404).send("Not Found")
 });
 
 // error handler
@@ -48,7 +48,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-app.listen(PORT, () => console.log(`server started on port ${PORT}`));
 
 module.exports = app;
